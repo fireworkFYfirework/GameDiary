@@ -1,0 +1,104 @@
+body {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+.container {
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+h1, h2, h3 {
+  color: #ffffff;
+}
+
+.upload-section {
+  margin: 20px 0;
+}
+
+.video-editor {
+  margin-top: 20px;
+}
+
+#video-preview {
+  width: 100%;
+  max-height: 400px;
+  background: #000;
+  border-radius: 4px;
+}
+
+.timeline-controls {
+  margin-top: 10px;
+}
+
+.timeline {
+  height: 20px;
+  background: #333;
+  position: relative;
+  margin: 10px 0;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #777;
+  width: 0;
+  border-radius: 4px;
+}
+
+.start-marker, .end-marker {
+  position: absolute;
+  top: -5px;
+  width: 2px;
+  height: 30px;
+  background: red;
+}
+
+.time-display {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+}
+
+button {
+  padding: 8px 15px;
+  margin-right: 10px;
+  cursor: pointer;
+  background-color: #5a7bb5;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #4a6ba5;
+}
+
+.saved-clips {
+  margin-top: 40px;
+}
+
+.clip-card {
+  border: 1px solid #444;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #2a2a2a;
+}
+
+#video-upload {
+  background-color: #333;
+  color: #e0e0e0;
+  padding: 8px;
+  border: 1px solid #444;
+  border-radius: 4px;
+}
+
+/* Remove any theme toggle related styles */
