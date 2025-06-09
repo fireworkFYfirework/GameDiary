@@ -18,6 +18,85 @@ h1, h2, h3 {
   color: #ffffff;
 }
 
+/* Navigation */
+.navigation {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.navigation button {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #5a7bb5;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+}
+
+.navigation button:hover {
+  background-color: #4a6ba5;
+}
+
+/* Page management */
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+/* Diary styles */
+.diary-upload {
+  background-color: #2a2a2a;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  border: 1px solid #444;
+}
+
+.diary-upload textarea {
+  width: 100%;
+  min-height: 100px;
+  margin: 10px 0;
+  padding: 8px;
+  background-color: #333;
+  color: #e0e0e0;
+  border: 1px solid #444;
+  border-radius: 4px;
+}
+
+.diary-entry {
+  border: 1px solid #444;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  background-color: #2a2a2a;
+}
+
+.diary-entry video {
+  width: 100%;
+  max-height: 400px;
+  background: #000;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.entry-description {
+  white-space: pre-wrap;
+  line-height: 1.5;
+  margin-bottom: 5px;
+}
+
+.entry-time {
+  color: #aaa;
+  font-size: 0.9em;
+  margin-bottom: 10px;
+}
+
+/* Trim page styles */
 .upload-section {
   margin: 20px 0;
 }
@@ -81,10 +160,6 @@ button:hover {
   background-color: #4a6ba5;
 }
 
-.saved-clips {
-  margin-top: 40px;
-}
-
 .clip-card {
   border: 1px solid #444;
   padding: 15px;
@@ -93,12 +168,10 @@ button:hover {
   background-color: #2a2a2a;
 }
 
-#video-upload {
+input[type="file"] {
   background-color: #333;
   color: #e0e0e0;
   padding: 8px;
   border: 1px solid #444;
   border-radius: 4px;
 }
-
-/* Remove any theme toggle related styles */
