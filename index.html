@@ -3,40 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Moment Diary - Clip Creator</title>
+    <title>Game Moment Diary</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Game Moment Diaryyy</h1>
+        <h1>Game Moment Diary</h1>
         
-        <div class="upload-section">
-            <input type="file" id="video-upload" accept="video/mp4">
-            <label for="video-upload">Choose MP4 File</label>
+        <div class="navigation">
+            <button id="trim-page-btn">Clip Creator</button>
+            <button id="diary-page-btn">My Diary</button>
         </div>
         
-        <div class="video-editor" style="display:none;">
-            <video id="video-preview" controls></video>
-            <div class="timeline-controls">
-                <div class="timeline">
-                    <div class="progress-bar"></div>
-                    <div class="start-marker"></div>
-                    <div class="end-marker"></div>
+        <!-- Trim Page Content -->
+        <div id="trim-page" class="page active">
+            <div class="upload-section">
+                <input type="file" id="video-upload" accept="video/mp4">
+                <label for="video-upload">Choose MP4 File</label>
+            </div>
+            
+            <div class="video-editor" style="display:none;">
+                <video id="video-preview" controls></video>
+                <div class="timeline-controls">
+                    <div class="timeline">
+                        <div class="progress-bar"></div>
+                        <div class="start-marker"></div>
+                        <div class="end-marker"></div>
+                    </div>
+                    <div class="time-display">
+                        <span id="start-time">00:00</span>
+                        <span id="end-time">00:00</span>
+                    </div>
+                    <button id="set-start">Set Start</button>
+                    <button id="set-end">Set End</button>
+                    <button id="preview-clip">Preview Clip</button>
+                    <button id="save-clip">Save Clip</button>
                 </div>
-                <div class="time-display">
-                    <span id="start-time">00:00</span>
-                    <span id="end-time">00:00</span>
-                </div>
-                <button id="set-start">Set Start</button>
-                <button id="set-end">Set End</button>
-                <button id="preview-clip">Preview Clip</button>
-                <button id="save-clip">Save Clip</button>
             </div>
         </div>
         
-        <div class="saved-clips">
-            <h2>My Saveddd Clips</h2>
-            <div id="clip-gallery"></div>
+        <!-- Diary Page Content -->
+        <div id="diary-page" class="page">
+            <div class="diary-upload">
+                <h2>Add New Diary Entry</h2>
+                <input type="file" id="diary-video-upload" accept="video/mp4">
+                <textarea id="diary-description" placeholder="Add your description..."></textarea>
+                <button id="save-diary-entry">Save Entry</button>
+            </div>
+            
+            <div class="diary-entries">
+                <h2>My Diary Entries</h2>
+                <div id="diary-gallery"></div>
+            </div>
         </div>
     </div>
     
