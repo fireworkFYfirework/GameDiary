@@ -1,4 +1,10 @@
 // DOM Elements
+const trimPageBtn = document.getElementById('trim-page-btn');
+const diaryPageBtn = document.getElementById('diary-page-btn');
+const trimPage = document.getElementById('trim-page');
+const diaryPage = document.getElementById('diary-page');
+
+// Trim Page Elements
 const videoUpload = document.getElementById('video-upload');
 const videoPreview = document.getElementById('video-preview');
 const videoEditor = document.querySelector('.video-editor');
@@ -10,13 +16,31 @@ const previewClipBtn = document.getElementById('preview-clip');
 const saveClipBtn = document.getElementById('save-clip');
 const clipGallery = document.getElementById('clip-gallery');
 
+// Diary Page Elements
+const diaryVideoUpload = document.getElementById('diary-video-upload');
+const diaryDescription = document.getElementById('diary-description');
+const saveDiaryEntryBtn = document.getElementById('save-diary-entry');
+const diaryGallery = document.getElementById('diary-gallery');
+
 // Video variables
 let originalVideoFile = null;
 let videoObjectUrl = null;
 let clipStartTime = 0;
 let clipEndTime = 0;
 
-// Event Listeners
+// Event Listeners for Page Navigation
+trimPageBtn.addEventListener('click', () => {
+    trimPage.classList.add('active');
+    diaryPage.classList.remove('active');
+});
+
+diaryPageBtn.addEventListener('click', () => {
+    diaryPage.classList.add('active');
+    trimPage.classList.remove('active');
+    loadDiaryEntries();
+});
+
+// Trim Page Functions
 videoUpload.addEventListener('change', handleVideoUpload);
 setStartBtn.addEventListener('click', setStartTime);
 setEndBtn.addEventListener('click', setEndTime);
@@ -27,7 +51,6 @@ function handleVideoUpload(e) {
     const file = e.target.files[0];
     if (!file) return;
     
-    // Validate file type
     if (!file.type.includes('mp4')) {
         alert('Please upload an MP4 file');
         return;
@@ -38,9 +61,8 @@ function handleVideoUpload(e) {
     videoPreview.src = videoObjectUrl;
     videoEditor.style.display = 'block';
     
-    // Initialize clip times
     clipStartTime = 0;
-    clipEndTime = videoPreview.duration || 30; // Default to 30s if duration not available
+    clipEndTime = videoPreview.duration || 30;
     
     updateTimeDisplays();
 }
@@ -48,7 +70,7 @@ function handleVideoUpload(e) {
 function setStartTime() {
     clipStartTime = videoPreview.currentTime;
     if (clipStartTime >= clipEndTime) {
-        clipStartTime = clipEndTime - 5; // Ensure minimum 5s clip
+        clipStartTime = clipEndTime - 5;
     }
     updateTimeDisplays();
 }
@@ -56,7 +78,7 @@ function setStartTime() {
 function setEndTime() {
     clipEndTime = videoPreview.currentTime;
     if (clipEndTime <= clipStartTime) {
-        clipEndTime = clipStartTime + 5; // Ensure minimum 5s clip
+        clipEndTime = clipStartTime + 5;
     }
     updateTimeDisplays();
 }
@@ -82,7 +104,6 @@ function previewClip() {
     videoPreview.currentTime = clipStartTime;
     videoPreview.play();
     
-    // Pause at end time
     const checkTime = () => {
         if (videoPreview.currentTime >= clipEndTime) {
             videoPreview.pause();
@@ -109,20 +130,73 @@ async function saveClip() {
         title: `Clip ${Math.floor(Math.random() * 1000)}`
     };
     
-    // Save to IndexedDB
-    await saveToIndexedDB(clipData);
-    
-    // Update UI
+    await saveToIndexedDB(clipData, 'gameClips');
     renderClip(clipData);
-    
     alert('Clip saved! (Note: In this prototype, only metadata is saved)');
 }
 
-async function saveToIndexedDB(data) {
-    // Simplified for prototype - in real app, use proper IndexedDB implementation
-    let clips = JSON.parse(localStorage.getItem('gameClips') || '[]');
-    clips.push(data);
-    localStorage.setItem('gameClips', JSON.stringify(clips));
+// Diary Page Functions
+saveDiaryEntryBtn.addEventListener('click', saveDiaryEntry);
+
+async function saveDiaryEntry() {
+    const file = diaryVideoUpload.files[0];
+    if (!file) {
+        alert('Please select a video file');
+        return;
+    }
+    
+    if (!file.type.includes('mp4')) {
+        alert('Please upload an MP4 file');
+        return;
+    }
+    
+    const description = diaryDescription.value.trim() || 'No description';
+    
+    const diaryEntry = {
+        id: Date.now(),
+        videoName: file.name,
+        videoUrl: URL.createObjectURL(file),
+        description: description,
+        createdAt: new Date().toISOString()
+    };
+    
+    await saveToIndexedDB(diaryEntry, 'diaryEntries');
+    renderDiaryEntry(diaryEntry);
+    
+    // Clear form
+    diaryVideoUpload.value = '';
+    diaryDescription.value = '';
+    
+    alert('Diary entry saved!');
+}
+
+function renderDiaryEntry(entry) {
+    const entryElement = document.createElement('div');
+    entryElement.className = 'diary-entry';
+    entryElement.innerHTML = `
+        <div class="entry-header">
+            <h3>${new Date(entry.createdAt).toLocaleString()}</h3>
+        </div>
+        <video controls src="${entry.videoUrl}"></video>
+        <p class="entry-description">${entry.description}</p>
+    `;
+    // Insert new entry at the top
+    diaryGallery.insertBefore(entryElement, diaryGallery.firstChild);
+}
+
+function loadDiaryEntries() {
+    const entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
+    diaryGallery.innerHTML = '';
+    entries.forEach(entry => {
+        renderDiaryEntry(entry);
+    });
+}
+
+// Common Functions
+async function saveToIndexedDB(data, storageKey) {
+    let items = JSON.parse(localStorage.getItem(storageKey) || '[]');
+    items.push(data);
+    localStorage.setItem(storageKey, JSON.stringify(items));
 }
 
 function renderClip(clip) {
